@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { Category } from './category.entity';
 
 @Entity()
 export class Todo extends BaseEntity {
@@ -18,8 +20,8 @@ export class Todo extends BaseEntity {
   @Column()
   completed: boolean
 
-  @Column({ nullable: true })
-  category_id: number | null
+  @ManyToOne(() => Category, (category) => category.todos, { onDelete: 'CASCADE' })
+  category: Category;
 
   @CreateDateColumn()
   createdAt: Date

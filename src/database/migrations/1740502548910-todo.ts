@@ -3,7 +3,7 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
-} from 'typeorm'
+} from 'typeorm';
 
 export class Todo1740502548910 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -15,6 +15,7 @@ export class Todo1740502548910 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: 'increment',
           },
           {
@@ -43,19 +44,20 @@ export class Todo1740502548910 implements MigrationInterface {
             default: 'CURRENT_TIMESTAMP',
           },
         ],
-      }),
-    )
-    await queryRunner.createForeignKeys('todos', [
+      })
+    );
+    await queryRunner.createForeignKey(
+      'todos',
       new TableForeignKey({
         columnNames: ['category_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'categories',
         onDelete: 'CASCADE',
-      }),
-    ])
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('todos')
+    await queryRunner.dropTable('todos');
   }
 }
